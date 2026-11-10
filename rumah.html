@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Page for Latifa</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Caveat:wght@600&family=Lora:ital,wght@1,500&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fff1eb 0%, #ace0f9 100%);
+            background-attachment: fixed;
+            color: #4a4a4a;
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Hiasan Pola Titik Pastel */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(#ff9a9e 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        /* --- KARAKTER DI KIRI DAN KANAN --- */
+        .character-container {
+            position: fixed;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+            animation: floatChar 3s ease-in-out infinite;
+        }
+
+        .char-left {
+            left: 20px;
+        }
+
+        .char-right {
+            right: 20px;
+            animation-delay: 1.5s;
+        }
+
+        .avatar-box {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #ffb3ba;
+            padding: 10px 15px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 120px;
+        }
+
+        .avatar-emoji {
+            font-size: 2.5rem;
+            display: inline-block;
+            animation: wave 2s infinite;
+        }
+
+        .char-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #5c677d;
+            margin-top: 4px;
+        }
+
+        @keyframes floatChar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(14deg); }
+            75% { transform: rotate(-14deg); }
+        }
+
+        @media (max-width: 600px) {
+            .character-container {
+                display: none;
+            }
+        }
+
+        /* Container Animasi Hati Terbang */
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            bottom: -20px;
+            color: rgba(255, 139, 148, 0.4);
+            font-size: 1.2rem;
+            animation: floatUp 6s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+        }
+
+        .container {
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            z-index: 3;
+            padding: 20px;
+        }
+
+        /* Card / Modul Belajar */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px dashed #ffb3ba;
+            padding: 35px 25px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(255, 154, 158, 0.25);
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .handwritten {
+            font-family: 'Caveat', cursive;
+            color: #ff6b6b;
+            font-size: 2.3rem;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            color: #5c677d;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #6c757d;
+            margin-bottom: 25px;
+        }
+
+        .sastra-quote {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            color: #4a4a4a;
+            background: rgba(255, 182, 193, 0.15);
+            border-left: 3px solid #ff758c;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+            line-height: 1.8;
+            font-size: 0.98rem;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: #ff8b94;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(255, 139, 148, 0.4);
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .btn:hover {
+            transform: scale(1.08);
+            background: #ff6b6b;
+        }
+
+        .btn-secondary {
+            background: #a8edea;
+            color: #4a4a4a;
+            box-shadow: 0 4px 15px rgba(168, 237, 234, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: #85e3df;
+        }
+
+        .btn-quiz {
+            background: #fff;
+            border: 2px solid #ffb3ba;
+            color: #ff6b6b;
+            width: 100%;
+            margin-bottom: 8px;
+            border-radius: 15px;
+        }
+
+        .btn-quiz:hover {
+            background: #ffe3e5;
+            color: #ff4757;
+        }
+
+        /* Pop-up Rahasia */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 10;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 85%;
+            text-align: center;
+            border: 2px solid #ffb3ba;
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* Hiasan Ikon Card */
+        .card::before {
+            content: '✏️';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 1.5rem;
+            background: #fff;
+            padding: 0 8px;
+            border-radius: 50%;
+        }
+
+        .card::after {
+            content: '🎨';
+            position: absolute;
+            bottom: -15px;
+            right: 20px;
+            font-size: 1.5rem;
+            background: #fff;
+            padding: 0 8px;
+            border-radius: 50%;
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 15px;
+            font-size: 0.75rem;
+            color: #888;
+            opacity: 0.6;
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Karakter Kiri: Anak PGSD (Perempuan) -->
+    <div class="character-container char-left">
+        <div class="avatar-box">
+            <div class="avatar-emoji">👩‍🏫</div>
+            <div class="char-label">Latifa (PGSD)</div>
+        </div>
+    </div>
+
+    <!-- Karakter Kanan: Anak IT (Laki-laki) -->
+    <div class="character-container char-right">
+        <div class="avatar-box">
+            <div class="avatar-emoji">👨‍💻</div>
+            <div class="char-label">Hafidzi (IT) 💻</div>
+        </div>
+    </div>
+
+    <!-- Animasi Hati Terbang -->
+    <div class="hearts-bg" id="hearts-container"></div>
+
+    <div class="container">
+        <!-- Halaman 1: Pembuka -->
+        <div class="card active" id="page-1">
+            <h1 class="handwritten">Halo Latifa, ✨</h1>
+            <p>Ada pesan khusus nih yang dirangkum mirip materi belajar hari ini. Coba klik tombol di bawah buat mulai ya!</p>
+            <div class="btn-group">
+                <button class="btn" onclick="nextPage(2)">Buka Lembar 1 📖</button>
+            </div>
+        </div>
+
+        <!-- Halaman 2: Mini Quiz Interaktif -->
+        <div class="card" id="page-2">
+            <h2>Kuis Singkat dulu! 📝</h2>
+            <p>Sebelum lanjut, seberapa penasaran kamu sama Hafidzi yang nulis kode ini?</p>
+            <button class="btn btn-quiz" onclick="answerQuiz('Dikit sih... 😜')">A. Dikit sih... 😜</button>
+            <button class="btn btn-quiz" onclick="answerQuiz('Penasaran banget! 🙈')">B. Penasaran banget! 🙈</button>
+            <button class="btn btn-quiz" onclick="answerQuiz('Kepo parah lah! 😆')">C. Kepo parah lah! 😆</button>
+        </div>
+
+        <!-- Halaman 3: Alasan -->
+        <div class="card" id="page-3">
+            <h2>Sebuah Alasan Kecil 🎒</h2>
+            <p>Jujur, kadang aku sering mikir... dari sekian banyak orang di dunia yang luas ini, aneh rasanya kenapa perhatianku bisa selalu jatuh ke hal-hal kecil tentang kamu.</p>
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="prevPage(2)">Kembali</button>
+                <button class="btn" onclick="nextPage(4)">Lanjut ➡️</button>
+            </div>
+        </div>
+
+        <!-- Halaman 4: Perasaan -->
+        <div class="card" id="page-4">
+            <h2>Tentang Kamu 🖍️</h2>
+            <p>Cara kamu ketawa, cara kamu cerita tentang hal yang kamu suka, semuanya punya energi tersendiri yang bikin hariku mendadak jadi jauh lebih cerah dari biasanya.</p>
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="prevPage(3)">Kembali</button>
+                <button class="btn" onclick="nextPage(5)">Pesan Semangat ✨</button>
+            </div>
+        </div>
+
+        <!-- Halaman 5: Pesan Penyemangat Sastra (Tambahan) -->
+        <div class="card" id="page-5">
+            <h2>Untaian Kata Untukmu 📜</h2>
+            <div class="sastra-quote">
+                "Dunia dan seisinya kerap kali berisik dan melelahkan, Latifa. Namun ingatlah, selalu ada hangat yang menunggumu pulang, selalu ada langkah kecil yang patut dirayakan. Jangan biarkan lelah memudarkan binar di matamu, karena bagiku, senyummu adalah bait puisi terindah yang pernah ada."
+            </div>
+            <p>Tetap semangat ya jalani hari-harimu! Jangan lupa untuk selalu istirahat yang cukup. 🌸</p>
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="prevPage(4)">Kembali</button>
+                <button class="btn" onclick="triggerEffectAndNext(6)">Terakhir 💌</button>
+            </div>
+        </div>
+
+        <!-- Halaman 6: Penutup & WhatsApp -->
+        <div class="card" id="page-6">
+            <h2>Catatan Terakhir... 🧸</h2>
+            <p>Mungkin web ini sederhana banget dibanding buku harian atau catatan kelas. Tapi semoga, lewat halaman ini, kamu tahu kalau ada Hafidzi di sini yang diam-diam selalu mengagumimu.</p>
+            <p><b>Gimana, mau ngobrol lebih lanjut?</b></p>
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="openModal()">Pesan Rahasia 🔑</button>
+                <a href="https://wa.me/6283877634722?text=Hai,%20aku%20udah%20baca%20webnya,%20lucu%20banget%20nuansanya%20hahaha" class="btn" target="_blank" onclick="triggerHeartBurst()">Balas Pesan 💌</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pop-up Pesan Rahasia -->
+    <div class="modal" id="secretModal">
+        <div class="modal-content">
+            <h2 class="handwritten" style="font-size: 2rem;">Pesan Rahasia 🤫</h2>
+            <p style="font-size: 0.95rem;">Semoga harimu selalu menyenangkan ya, Latifa! Salam manis dari Hafidzi. 😊</p>
+            <button class="btn" onclick="closeModal()">Tutup ✨</button>
+        </div>
+    </div>
+
+    <div class="watermark">Made with 🤍 by Hafidzi for Latifa</div>
+
+    <script>
+        // Sistem Navigasi Card
+        function nextPage(pageNumber) {
+            document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
+            document.getElementById('page-' + pageNumber).classList.add('active');
+        }
+
+        function prevPage(pageNumber) {
+            document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
+            document.getElementById('page-' + pageNumber).classList.add('active');
+        }
+
+        // Kuis Interaktif
+        function answerQuiz(option) {
+            confetti({ particleCount: 30, spread: 50, origin: { y: 0.6 } });
+            nextPage(3);
+        }
+
+        // Animasi Hati Terbang di Latar Belakang
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = '💗';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 4 + 's';
+            document.getElementById('hearts-container').appendChild(heart);
+
+            setTimeout(() => { heart.remove(); }, 6000);
+        }
+        setInterval(createHeart, 800);
+
+        // Confetti & Pop-up
+        function triggerEffectAndNext(pageNumber) {
+            nextPage(pageNumber);
+            confetti({
+                particleCount: 70,
+                spread: 80,
+                origin: { y: 0.6 },
+                colors: ['#ff8b94', '#ffb3ba', '#a8edea', '#ffd3b6']
+            });
+        }
+
+        function triggerHeartBurst() {
+            confetti({
+                particleCount: 120,
+                spread: 100,
+                origin: { y: 0.7 },
+                colors: ['#ff6b6b', '#ff758c', '#ff8b94']
+            });
+        }
+
+        function openModal() {
+            document.getElementById('secretModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('secretModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
